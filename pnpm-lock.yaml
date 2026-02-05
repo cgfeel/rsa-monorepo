@@ -17,6 +17,9 @@ importers:
       '@rsbuild/plugin-eslint':
         specifier: ^1.2.1
         version: 1.2.1(@rsbuild/core@1.7.3)(eslint@9.39.2(jiti@2.6.1))
+      '@types/express':
+        specifier: ^5.0.6
+        version: 5.0.6
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.54.0
         version: 8.54.0(@typescript-eslint/parser@8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
@@ -41,6 +44,9 @@ importers:
       eslint-plugin-react-refresh:
         specifier: ^0.4.26
         version: 0.4.26(eslint@9.39.2(jiti@2.6.1))
+      tsx:
+        specifier: ^4.21.0
+        version: 4.21.0
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -194,6 +200,61 @@ importers:
         specifier: ^8.48.0
         version: 8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 
+  packages/rsbuild-ssr:
+    dependencies:
+      express:
+        specifier: ^5.2.1
+        version: 5.2.1
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@rsbuild/core':
+        specifier: ^1.7.1
+        version: 1.7.3
+      '@rsbuild/plugin-react':
+        specifier: ^1.4.2
+        version: 1.4.5(@rsbuild/core@1.7.3)
+      '@rstest/core':
+        specifier: ^0.7.8
+        version: 0.7.9(happy-dom@20.5.0)
+      '@tailwindcss/postcss':
+        specifier: ^4.1.18
+        version: 4.1.18
+      '@testing-library/dom':
+        specifier: ^10.4.1
+        version: 10.4.1
+      '@testing-library/jest-dom':
+        specifier: ^6.9.1
+        version: 6.9.1
+      '@testing-library/react':
+        specifier: ^16.3.1
+        version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@types/react':
+        specifier: ^18.3.18
+        version: 18.3.27
+      '@types/react-dom':
+        specifier: ^18.3.5
+        version: 18.3.7(@types/react@18.3.27)
+      cross-env:
+        specifier: ^10.1.0
+        version: 10.1.0
+      globals:
+        specifier: ^16.5.0
+        version: 16.5.0
+      happy-dom:
+        specifier: ^20.0.11
+        version: 20.5.0
+      prettier:
+        specifier: ^3.7.3
+        version: 3.8.1
+      tailwindcss:
+        specifier: ^4.1.18
+        version: 4.1.18
+
   packages/rsbuild-ssr-demo:
     dependencies:
       express:
@@ -254,6 +315,67 @@ importers:
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
+
+  packages/webpack-rsc:
+    dependencies:
+      express:
+        specifier: ^5.2.1
+        version: 5.2.1
+      react:
+        specifier: ^19.2.4
+        version: 19.2.4
+      react-dom:
+        specifier: ^19.2.4
+        version: 19.2.4(react@19.2.4)
+    devDependencies:
+      '@babel/core':
+        specifier: ^7.28.6
+        version: 7.29.0
+      '@babel/preset-env':
+        specifier: ^7.28.6
+        version: 7.29.0(@babel/core@7.29.0)
+      '@babel/preset-react':
+        specifier: ^7.28.5
+        version: 7.28.5(@babel/core@7.29.0)
+      '@babel/preset-typescript':
+        specifier: ^7.28.5
+        version: 7.28.5(@babel/core@7.29.0)
+      '@types/node':
+        specifier: ^25.0.10
+        version: 25.2.0
+      '@types/react':
+        specifier: ^19.2.10
+        version: 19.2.13
+      '@types/react-dom':
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.13)
+      '@types/webpack':
+        specifier: ^5.28.5
+        version: 5.28.5(webpack-cli@6.0.1)
+      '@types/webpack-node-externals':
+        specifier: ^3.0.4
+        version: 3.0.4(webpack-cli@6.0.1)
+      babel-loader:
+        specifier: ^10.0.0
+        version: 10.0.0(@babel/core@7.29.0)(webpack@5.105.0)
+      html-webpack-plugin:
+        specifier: ^5.6.6
+        version: 5.6.6(@rspack/core@1.7.5(@swc/helpers@0.5.18))(webpack@5.105.0)
+      react-server-dom-webpack:
+        specifier: ^19.2.4
+        version: 19.2.4(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(webpack@5.105.0)
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@types/node@25.2.0)(typescript@5.9.3)
+      webpack:
+        specifier: ^5.104.1
+        version: 5.105.0(webpack-cli@6.0.1)
+      webpack-cli:
+        specifier: ^6.0.1
+        version: 6.0.1(webpack@5.105.0)
+      webpack-node-externals:
+        specifier: ^3.0.0
+        version: 3.0.0
 
 packages:
 
@@ -1516,6 +1638,9 @@ packages:
 
   '@types/react@19.2.11':
     resolution: {integrity: sha512-tORuanb01iEzWvMGVGv2ZDhYZVeRMrw453DCSAIn/5yvcSVnMoUMTyf33nQJLahYEnv9xqrTNbgz4qY5EfSh0g==}
+
+  '@types/react@19.2.13':
+    resolution: {integrity: sha512-KkiJeU6VbYbUOp5ITMIc7kBfqlYkKA5KhEHVrGMmUUMt7NeaZg65ojdPk+FtNrBAOXNVM5QM72jnADjM+XVRAQ==}
 
   '@types/send@1.2.1':
     resolution: {integrity: sha512-arsCikDvlU99zl1g69TcAB3mzZPpxgw0UQnaHeC1Nwb015xp8bknZv5rIfri9xTOcMuaVgvabfIRA7PSZVuZIQ==}
@@ -4899,12 +5024,20 @@ snapshots:
     dependencies:
       '@types/react': 19.2.11
 
+  '@types/react-dom@19.2.3(@types/react@19.2.13)':
+    dependencies:
+      '@types/react': 19.2.13
+
   '@types/react@18.3.27':
     dependencies:
       '@types/prop-types': 15.7.15
       csstype: 3.2.3
 
   '@types/react@19.2.11':
+    dependencies:
+      csstype: 3.2.3
+
+  '@types/react@19.2.13':
     dependencies:
       csstype: 3.2.3
 
