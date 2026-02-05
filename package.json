@@ -9,10 +9,26 @@
   },
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "rsbuild:ssr": "pnpm --filter \"rsbuild-rsa-demo\" dev",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack:rsa": "pnpm --filter \"react-rsc-demo\" start"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "packageManager": "pnpm@10.25.0"
+  "packageManager": "pnpm@10.25.0",
+  "devDependencies": {
+    "@eslint/core": "^1.1.0",
+    "@eslint/js": "^9.39.2",
+    "@rsbuild/plugin-eslint": "^1.2.1",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
+    "eslint": "^9.39.2",
+    "eslint-config-ali": "^16.6.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.26",
+    "typescript-eslint": "^8.54.0"
+  }
 }
