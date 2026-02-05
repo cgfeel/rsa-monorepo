@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      express:
+        specifier: ^5.2.1
+        version: 5.2.1
     devDependencies:
       '@eslint/core':
         specifier: ^1.1.0
@@ -44,6 +48,9 @@ importers:
       eslint-plugin-react-refresh:
         specifier: ^0.4.26
         version: 0.4.26(eslint@9.39.2(jiti@2.6.1))
+      prettier:
+        specifier: ^3.8.1
+        version: 3.8.1
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
@@ -202,9 +209,6 @@ importers:
 
   packages/rsbuild-ssr:
     dependencies:
-      express:
-        specifier: ^5.2.1
-        version: 5.2.1
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -248,9 +252,6 @@ importers:
       happy-dom:
         specifier: ^20.0.11
         version: 20.5.0
-      prettier:
-        specifier: ^3.7.3
-        version: 3.8.1
       tailwindcss:
         specifier: ^4.1.18
         version: 4.1.18
@@ -318,9 +319,6 @@ importers:
 
   packages/webpack-rsc:
     dependencies:
-      express:
-        specifier: ^5.2.1
-        version: 5.2.1
       react:
         specifier: ^19.2.4
         version: 19.2.4
