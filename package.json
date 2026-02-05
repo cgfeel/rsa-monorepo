@@ -9,7 +9,7 @@
   },
   "private": true,
   "scripts": {
-    "rsbuild:ssr": "pnpm --filter \"rsbuild-rsa-demo\" dev",
+    "rsbuild:ssr": "pnpm --filter \"rsbuild-ssr-demo\" dev",
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack:rsa": "pnpm --filter \"react-rsc-demo\" start"
   },
