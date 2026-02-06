@@ -15,6 +15,10 @@
   "scripts": {
     "format:check": "pnpm -r format:check",
     "lint": "pnpm -r lint",
+    "lint:style": "stylelint \"**/*.{css,scss}\"",
+    "lint:style:fix": "stylelint \"**/*.{css,scss}\" --fix",
+    "commit:msg": "commitlint --edit $1",
+    "prepare": "husky install",
     "rsbuild:ssr": "pnpm --filter \"rsbuild-ssr\" dev",
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc --noEmit",
@@ -25,6 +29,8 @@
   "license": "MIT",
   "packageManager": "pnpm@10.25.0",
   "devDependencies": {
+    "@commitlint/cli": "^20.4.1",
+    "@commitlint/config-conventional": "^20.4.1",
     "@eslint/core": "^1.1.0",
     "@eslint/js": "^9.39.2",
     "@rsbuild/plugin-eslint": "^1.2.1",
@@ -40,8 +46,12 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.26",
     "globals": "^16.5.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
+    "stylelint": "^17.1.1",
+    "stylelint-config-standard": "^40.0.0",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.54.0"
