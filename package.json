@@ -23,6 +23,7 @@
     "@rsbuild/plugin-eslint": "^1.2.1",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@types/express": "^5.0.6",
+    "@types/node": "^25.2.0",
     "@typescript-eslint/eslint-plugin": "^8.54.0",
     "@typescript-eslint/parser": "^8.54.0",
     "eslint": "^9.39.2",

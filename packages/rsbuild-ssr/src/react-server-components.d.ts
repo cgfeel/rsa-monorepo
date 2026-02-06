@@ -7,7 +7,7 @@ declare global {
     // 覆盖默认的 ElementType，支持异步 RSC 组件
     type ElementType = 
       | (() => ReactNode) 
-      | (() => Promise<ReactElement<any, string | JSXElementConstructor<any>>>);
+      | (() => Promise<ReactElement<unknown, string | JSXElementConstructor<unknown>>>);
   }
 }
 

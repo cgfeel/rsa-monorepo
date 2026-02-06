@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json", // 继承根目录的基础配置（可选但推荐）
   "compilerOptions": {
+    "composite": true,
     "lib": ["DOM", "ES2020"],
     "jsx": "react-jsx",
     "useDefineForClassFields": true,

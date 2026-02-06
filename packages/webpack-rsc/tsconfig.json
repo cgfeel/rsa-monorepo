@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json", // 继承根目录的基础配置（可选但推荐）
   "compilerOptions": {
+    "composite": true,
     "jsx": "react-jsx", // 支持React 18+ JSX
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
@@ -12,7 +13,7 @@
     "declarationDir": "./dist/types",
     "outDir": "./dist",
     "rootDir": "./",
-    "typeRoots": ["./types", "./node_modules/@types"],
+    "typeRoots": ["./types", "./node_modules/@types", "../../node_modules/@types"],
     "paths": {
       "@/*": ["./src/*"]
     }
