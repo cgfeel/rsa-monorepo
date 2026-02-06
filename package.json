@@ -2,15 +2,22 @@
   "name": "rsa-monorepo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "engines": {
     "node": ">=22.12.0",
-    "pnpm": ">=10.25.0"
+    "pnpm": ">=10.25.0",
+    "npm": "please-use-pnpm",
+    "yarn": "please-use-pnpm"
   },
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
+    "format:check": "pnpm -r format:check",
+    "lint": "pnpm -r lint",
     "rsbuild:ssr": "pnpm --filter \"rsbuild-ssr\" dev",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc --noEmit",
     "webpack:rsa": "pnpm --filter \"webpack-rsc\" start"
   },
   "keywords": [],
