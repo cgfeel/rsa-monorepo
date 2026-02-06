@@ -1,9 +1,9 @@
-import { registerClientReference } from "react-server-dom-webpack/server";
+import { registerClientReference } from 'react-server-dom-webpack/server';
 
 export const ClientCounter = registerClientReference(
-    () => {
-        throw new Error("Counter should not be called on the server");
-    },
-    "./src/client/ClientCounter.tsx",
-    'default'
-)
+  () => {
+    throw new Error('Counter should not be called on the server');
+  },
+  './src/client/ClientCounter.tsx',
+  'default'
+);

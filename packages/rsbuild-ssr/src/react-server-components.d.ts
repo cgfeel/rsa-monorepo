@@ -1,12 +1,12 @@
 // react-server-components.d.ts
-import type { ReactElement, ReactNode } from 'react';
+import type { JSXElementConstructor, ReactElement, ReactNode } from 'react';
 
 // 扩展 JSX 组件类型，允许 async 函数返回 Promise<ReactElement>
 declare global {
   namespace JSX {
     // 覆盖默认的 ElementType，支持异步 RSC 组件
-    type ElementType = 
-      | (() => ReactNode) 
+    type ElementType =
+      | (() => ReactNode)
       | (() => Promise<ReactElement<unknown, string | JSXElementConstructor<unknown>>>);
   }
 }

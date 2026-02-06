@@ -1,9 +1,9 @@
 import { createRoot } from 'react-dom/client';
 import { createFromFetch } from 'react-server-dom-webpack/client';
 
-const rootElement = document.getElementById("root");
+const rootElement = document.getElementById('root');
 if (!rootElement) {
-  throw new Error("未找到 root 容器");
+  throw new Error('未找到 root 容器');
 }
 
 // 创建 React 根节点

@@ -1,34 +1,36 @@
 {
-    "name": "rsbuild-ssr",
-    "version": "1.0.0",
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "build": "rsbuild build",
-        "dev": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" tsx ./server/server.ts --open",
-        "format": "prettier --write .",
-        "lint": "eslint .",
-        "preview": "npm run build && tsx ./server/prod-server.ts",
-        "test": "rstest",
-        "test:watch": "rstest --watch"
-    },
-    "dependencies": {
-        "react": "^18.3.1",
-        "react-dom": "^18.3.1"
-    },
-    "devDependencies": {
-        "@rsbuild/core": "^1.7.1",
-        "@rsbuild/plugin-react": "^1.4.2",
-        "@rstest/core": "^0.7.8",
-        "@tailwindcss/postcss": "^4.1.18",
-        "@testing-library/dom": "^10.4.1",
-        "@testing-library/jest-dom": "^6.9.1",
-        "@testing-library/react": "^16.3.1",
-        "@types/react": "^18.3.18",
-        "@types/react-dom": "^18.3.5",
-        "cross-env": "^10.1.0",
-        "globals": "^16.5.0",
-        "happy-dom": "^20.0.11",
-        "tailwindcss": "^4.1.18"
-    }
+  "name": "rsbuild-ssr",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "rsbuild build",
+    "dev": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" tsx ./server/server.ts --open",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx}\"",
+    "lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\"",
+    "lint:fix": "eslint \"src/**/*.{ts,tsx,js,jsx}\" --fix",
+    "preview": "npm run build && tsx ./server/prod-server.ts",
+    "test": "rstest",
+    "test:watch": "rstest --watch"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "^1.7.1",
+    "@rsbuild/plugin-react": "^1.4.2",
+    "@rstest/core": "^0.7.8",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "cross-env": "^10.1.0",
+    "globals": "^16.5.0",
+    "happy-dom": "^20.0.11",
+    "tailwindcss": "^4.1.18"
+  }
 }
