@@ -4,6 +4,11 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+permissions:
+  contents: write
+  pull-requests: write
+  pages: write
+  id-token: write
 jobs:
   validate-and-build:
     runs-on: ubuntu-latest
@@ -33,3 +38,30 @@ jobs:
         run: pnpm tsc --noEmit
       - name: Run lint
         run: pnpm run lint
+  release-please:
+    needs: validate-and-build
+    runs-on: ubuntu-latest
+    outputs:
+      # 输出每个子包的独立发布状态和Tag
+      rsbuild-ssr--release_created: ${{ steps.release.outputs['packages/rsbuild-ssr--release_created'] }}
+      rsbuild-ssr--tag_name: ${{ steps.release.outputs['packages/rsbuild-ssr--tag_name'] }}
+      rsbuild-ssr--version: ${{ steps.release.outputs['packages/rsbuild-ssr--version'] }} # 新增：输出版本号
+      webpack-rsc--release_created: ${{ steps.release.outputs['packages/webpack-rsc--release_created'] }}
+      webpack-rsc--tag_name: ${{ steps.release.outputs['packages/webpack-rsc--tag_name'] }}
+      webpack-rsc--version: ${{ steps.release.outputs['packages/webpack-rsc--version'] }}
+      releases_created: ${{ steps.release.outputs.releases_created }}
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.GH_PACKAGES_TOKEN }}
+          include-component-in-tag: true
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+      - name: Print release outputs for debugging
+        continue-on-error: true
+        run: |
+          echo "Release outputs (write to file first):"
+          # 方案1：将JSON输出到文件，再cat查看（推荐，避免特殊字符解析）
+          echo '${{ toJson(steps.release.outputs) }}' > release-outputs.json
+          cat release-outputs.json
