@@ -50,7 +50,7 @@ pnpm run ts:check
 
 - 见：`./types/global.d.ts` [[源码](./types/global.d.ts)]
 
-> `react-server-dom-webpack` 这个包还在开发完善中，后面可能会有比较大的调整，这里作为仅作为 `RSC` 渲染过程研究，生产环境建议使用，如：`NextJS`、`Remix` 这样成熟的框架
+> `react-server-dom-webpack` 这个包还在开发完善中，后面可能会有比较大的调整，这里仅作为 `RSC` 渲染过程研究，生产环境建议使用，如：`NextJS`、`Remix` 这样成熟的框架
 
 ## 2. 服务端构建
 
@@ -58,8 +58,10 @@ pnpm run ts:check
 pnpm run build:server
 ```
 
+配置文件和引入的包：
+
 - 配置文件：`./config/webpack.config.server.ts` [[源码](./config/webpack.config.server.ts)]
-- 服务端渲染用到的包：`react-server-dom-webpack/server`
+- 服务端注册客户端组件用到的包：`react-server-dom-webpack/server`
 
 ### 流程
 
@@ -102,9 +104,15 @@ pnpm run build:server
 pnpm run build:client
 ```
 
+配置文件和引入的包：
+
+- 配置文件：`./config/webpack.config.client.ts` [[源码](./config/webpack.config.client.ts)]
+- 生成客户端组件映射文件：`react-server-dom-webpack/plugin`
+- 客户端加载资源并注水：`react-server-dom-webpack/client`
+
 ### 构建配置
 
-和构建 `React` 业务配置一样 [[源码](./config/webpack.config.client.ts)]，包含 `RSC` 相关的配置项有：
+和构建 `React` 业务配置一样，包含 `RSC` 相关的配置项有：
 
 - `entry`：配置入口文件，`./src/client.ts`
 - `output.chunkFilename`：客户端组件编译切分文件
