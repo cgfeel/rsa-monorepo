@@ -108,7 +108,7 @@ pnpm run build:client
 
 - 配置文件：`./config/webpack.config.client.ts` [[源码](./config/webpack.config.client.ts)]
 - 生成客户端组件映射文件：`react-server-dom-webpack/plugin`
-- 客户端加载资源并注水：`react-server-dom-webpack/client`
+- 客户端加载 `RSC` 并注水：`react-server-dom-webpack/client`
 
 ### 构建配置
 
@@ -125,7 +125,7 @@ pnpm run build:client
   - `HtmlWebpackPlugin`：设置 `/client` 的根目录静态文件
   - `ReactServerWebpackPlugin`（重要）：将项目中所有的 `use client` 文件编译为 `chunk` 文件，以及对应的 `mainifest` 映射文件，用于获取 `RSC` 资源时替换并进行 `hydrate`
 
-`HtmlWebpackPlugin` 的静态文件来自于模板：`./public/index.html` [[源码](./public/index.html)]，编译后会将客户端入口文件 `/client/main.js` 插入入口文件中，以便加载并解析 `RSC`
+`HtmlWebpackPlugin` 的静态文件来自于模板：`./public/index.html` [[源码](./public/index.html)]，编译后会将客户端入口文件 `/client/main.js` 插入编译后的静态文件中，以便加载并解析 `RSC`
 
 ### 客户端组件
 
@@ -133,13 +133,13 @@ pnpm run build:client
 
 有两点需要注意：
 
-- `registerClientReference` 是构建服务端组件时，注册客户端组件并记录占位符，不需要 `use client`
+- `registerClientReference` 是构建服务端组件时，注册客户端组件并记录占位，不需要 `use client`
 - 所有首行标记 `use client` 的文件都会在编译时记录在 `manifest` 映射表中，用于加载 `RSC` 资源后 `hydrate`
 
 > **Todo**：`ReactServerWebpackPlugin` 的工作原理，如何记录客户端组件的，目前不清楚，但可以排除以下情况：
 >
 > - 通过入口文件引入解析：构建配置的入口文件中并没有引入业务组件
-> - 通过服务端编译的文件：编译的文件是相对目录，生成的 `map` 文件是绝对路径
+> - 通过服务端编译的文件：生成的 `map` 文件是绝对路径，并非来自编译后的文件
 >
 > 具体什么原理，如果你清楚可以在当前仓库的 `issue` 告诉我 [[去补充](https://github.com/cgfeel/rsa-monorepo/issues/new)]
 
@@ -154,7 +154,7 @@ pnpm run build:client
 
 参数：
 
-- `input`：加载的资源，可以是 `Response` 也可以是一个 `Promise`（如果要对 `Response` 做处理的话）
+- `input`：加载的资源，可以是 `Response` 也可以是一个 `Promise`（如果要对 `Response` 做处理）
 - `options`：
   - `moduleBaseURL`：用于加载 `Client Components` 的代码分割模块
   - `onError`：加载解析异常时的回调函数
@@ -202,6 +202,12 @@ pnpm run ts:declaration
 ```shell
 tsx --conditions react-server server.ts
 ```
+
+配置文件和引入的包：
+
+- 加载资源前根据运行时引入：`react-server-dom-webpack/node-register`
+- 将服务端编译的结果转换成可渲染的资源流：`react-server-dom-webpack/server`
+- 编译后，客户端组件隐射文件：`react-client-manifest.json`
 
 在上述构建中获得以下物料，按照顺序为其配置访问接口：
 
