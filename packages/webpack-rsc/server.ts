@@ -34,7 +34,7 @@ app.get('/', (_, res) => {
   res.send(clientTemplate);
 });
 
-app.get('/rsc', async (req, res) => {
+app.get('/rsc', (_, res) => {
   try {
     // 将 Server Component 渲染为 RSC Payload 流
     const stream = renderToPipeableStream(React.createElement(App), clientManifest);
