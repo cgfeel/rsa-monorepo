@@ -207,7 +207,7 @@ tsx --conditions react-server server.ts
 
 - 加载资源前根据运行时引入：`react-server-dom-webpack/node-register`
 - 将服务端编译的结果转换成可渲染的资源流：`react-server-dom-webpack/server`
-- 编译后，客户端组件隐射文件：`react-client-manifest.json`
+- 编译后，客户端组件映射文件：`react-client-manifest.json`
 
 在上述构建中获得以下物料，按照顺序为其配置访问接口：
 
@@ -282,6 +282,7 @@ app.get('/rsc', (_, res) => {
 - 在客户端 `manifest` 找到和 `id` 匹配的 `chunk`
 - 将 `chunk` 编译后的代码，根据 `registerClientReference` 提供的导出名进行替换
 - 将注水后的资源通过 `createRoot` 渲染到 `root`
+- 加载客户端编译后的 `React` 依赖项：`vendors-*.js`，将虚拟 `Dom` 渲染为真实 `Dom`
 
 ### 写在后面
 

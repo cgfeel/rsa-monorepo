@@ -10,13 +10,13 @@
 
 - 手写服务端渲染 `React` 用例
 
-`react-server-dom-webpack` 手写 `RSA` [[查看](http://baidu.com)]
+`react-server-dom-webpack` 手写 `RSA` [[查看](./packages/webpack-rsc)]
 
 ```shell
 pnpm -w run webpack:rsa
 ```
 
-`rsbuild` 实现 `SSR` [[查看](http://baidu.com)]
+`rsbuild` 实现 `SSR` [[查看](./packages/rsbuild-ssr)]
 
 ```shell
 pnpm -w run rsbuild:ssr
