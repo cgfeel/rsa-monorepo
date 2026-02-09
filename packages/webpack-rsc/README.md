@@ -6,7 +6,7 @@
 - 服务端构建时加载同步组件，并设置占位符
 - 客户端构建时扫描所有客户端组件生成 `manifest` 文件
 - 生成客户端入口资源，加载服务端生成的 `rsc` 资源 `hydate`
-- 使用 `express` 作为服务端加载运行时、资源，完成渲染
+- 使用 `express` 作为服务端加载运行时、所需资源，完成渲染
 
 ## 版本选择
 
@@ -46,7 +46,7 @@ pnpm run ts:check
 
 `react-server-dom-webpack` 是用 `javascript` 编写，以 `cjs` 规范作为规范，没有提供相关类型，本次示例仅对必要的几个方法提供了类型补充
 
-- 见：`./types/global.d.ts` [[源码](./webpack-rsc/types/global.d.ts)]
+- 见：`./types/global.d.ts` [[源码](./types/global.d.ts)]
 
 ## 2. 服务端构建
 
@@ -67,9 +67,9 @@ pnpm run build:server
 
 ### 服务端构建客户端组件
 
-方法：`registerClientReference` [[源码](./webpack-rsc/src/client/client-references.ts)]，参数说明：
+方法：`registerClientReference` [[源码](./src/client/client-references.ts)]，参数说明：
 
-- `proxyImplementation`：通过 `renderToPipeableStream` [[查看](./webpack-rsc/src/client/client-references.ts)]，读取 `rsc` 资源的时候，如果客户端组件无法渲染，将作为其代替渲染的方法，示例中直接抛出错误
+- `proxyImplementation`：通过 `renderToPipeableStream` [[查看](./src/client/client-references.ts)]，读取 `rsc` 资源的时候，如果客户端组件无法渲染，将作为其代替渲染的方法，示例中直接抛出错误
 - `id`：在构建客户端组件资源时的唯一标识，示例使用了相对路径
 - `exportName`：默认导出用 `default`，具名导出填写导出的组件方法名
 
@@ -86,7 +86,7 @@ pnpm run build:server
 - 会在构建时加载异步组件、以及获取异步数据
 - 客户端组件将会按照指定 `id` 进行插桩，以便项目启动后，从服务端拿到 `rsc` 资源进行替换
 
-> 注意：业务中有多少客户端组件，就需要通过 `registerClientReference` 手动记录 `map id`。在 `NextJS` 中这一过程由框架本身完成，开发者无需关心。这里为了研究 `RSA` 原理，所以手动演示。
+> 业务中有多少客户端组件，就需要通过 `registerClientReference` 手动记录 `map id`。在 `NextJS` 中这一过程由框架本身完成，开发者无需关心。这里为了研究 `RSA` 原理手动演示。
 
 ## 3. 构建客户端组件
 
@@ -96,6 +96,6 @@ pnpm run build:client
 
 这里涉及到 3 个文件：
 
-- 构建配置：`./config/webpack.config.client.ts` [[源码](./webpack-rsc/config/webpack.config.client.ts)]
-- 客户端组件：`./src/client/ClientCounter.tsx` [[源码](./webpack-rsc/src/client/ClientCounter.tsx)]
-- 客户端入口文件：`./src/client.ts` [[源码](./webpack-rsc/src/client.ts)]
+- 构建配置：`./config/webpack.config.client.ts` [[源码](./config/webpack.config.client.ts)]
+- 客户端组件：`./src/client/ClientCounter.tsx` [[源码](./src/client/ClientCounter.tsx)]
+- 客户端入口文件：`./src/client.ts` [[源码](./src/client.ts)]
