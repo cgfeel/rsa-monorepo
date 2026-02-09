@@ -1,12 +1,12 @@
 # 使用 `react-server-dom-webpack` 实现 `RSC`
 
-由 `React` 官方提供的服务端渲染方法，目前并没有写入文档；当前示例将展示：
+由 `React` 官方提供的服务端渲染方法，目前并没有写入文档；在当前仓库记录总结，包含：
 
 - 服务端构建时加载异步组件，以及异步获取数据
-- 服务端构建时加载客户端组件，并设置占位符
-- 客户端构建时扫描所有客户端组件生成 `manifest` 文件
+- 服务端构建时加载客户端组件，并设置占位
+- 客户端构建时生成客户端组件 `manifest` 映射文件
 - 生成客户端入口资源，加载服务端生成的 `RSC` 资源 `hydrate`
-- 使用 `express` 作为服务端加载运行时、所需资源，完成渲染
+- 使用 `Express` 作为服务端加载运行时、所需资源，完成渲染
 
 ## 版本选择
 
@@ -199,7 +199,13 @@ tsx --conditions react-server server.ts
 | `./dist/client/`           | `/client` | 静态资源目录，包含：客户端资源入口、客户端组件 `chunk` 文件 |
 | `./dist/index.js`          | `/rsc`    | 服务端编译打包后的文件，加载并解析成数据流作为接口          |
 
-示例中使用 `Express` 作为 `server` 提供接口服务，见：[[源码](./server.ts)]
+示例中使用 `Express` 作为 `server` 提供接口服务
+
+### 写在前头
+
+在加载资源前需要引入 `react-server-dom-webpack/node-register` 作为运行时使用，以便解析响应的资源，见：[[源码](./server.ts)]
+
+> 在服务端构建时通过 `webpack` 配置文件中的 `target` 选择 `react-server-dom-webpack/server` 所在的环境为 `node`，那么加载资源前也需要按照运行环境引入对应的包
 
 ### 入口资源
 
@@ -258,6 +264,21 @@ app.get('/rsc', (_, res) => {
 - 在客户端 `manifest` 找到于 `id` 匹配的 `chunk`
 - 将 `chunk` 编译后的代码，根据 `registerClientReference` 提供的导出名进行替换
 - 将注水后的资源通过 `createRoot` 渲染到 `root`
+
+### 写在后面
+
+- 服务端构建时通过 `webpack` 的配置 `target` 决定运行环境
+- 启动服务时也需要提供对应的环境 `--conditions react-server`
+
+> 否则会默认加载通过 `server.js` 引入 `react-server-dom-webpack/server`，而这个包将默认抛出一个错误
+
+完整的命令见：`package.json` [[源码](./package.json)]，查看演示运行 `start` 即可
+
+```shell
+pnpm run start
+# or
+pnpm -w run webpack:rsc
+```
 
 ## 有待改进
 
