@@ -77,20 +77,22 @@ pnpm run build:server
 
 ### 构建配置
 
-`react-server-dom-webpack/server` 根据 `webpack` 配置中 `target: node` [[查看](./config/webpack.config.server.ts)] 划分以下几个文件
+`react-server-dom-webpack/server` 根据 `webpack` 配置中 `target: node` [[源码](./config/webpack.config.server.ts)] 划分以下几个文件
 
 - `server.browser.js`
 - `server.edge.js`
 - `server.node.js`（示例选择 `node`）
 
-> 由于需要编译业务代码的 `typescript` 类型，所以打包目录设置在 `./dist` 目录
+这和启动 `server` 需要的运行时有关
 
-这和下面将要提到的运行时有关，打包后：
+> 由于需要编译业务代码的 `typescript` 类型，所以服务端打包目录设置在 `./dist`
+
+编译过程：
 
 - 构建时加载异步组件、以及获取异步数据
-- 客户端组件将会按照指定 `id` 进行插桩，以便项目启动后，从服务端拿到 `RSC` 资源进行替换
+- 客户端组件将会按照指定 `id` 进行占位替换，以便项目启动后，从服务端拿到 `RSC` 资源进行替换
 
-> 业务中有多少客户端组件，就需要通过 `registerClientReference` 手动记录 `map id`。在 `NextJS` 中这一过程由框架本身完成，开发者无需关心。这里为了研究 `RSC` 原理手动演示。
+> 业务中有多少客户端组件，就需要通过 `registerClientReference` 手动记录 `map id`。在 `NextJS` 中这一过程由框架本身完成，开发者无需关心。这里为了演示 `RSC` 原理手动填写。
 
 ## 3. 构建客户端组件
 
@@ -100,12 +102,12 @@ pnpm run build:client
 
 ### 构建配置
 
-构建配置和 `React` 一样 [[源码](./config/webpack.config.client.ts)]，几个和 `RSC` 相关的配置
+和构建 `React` 业务配置一样 [[源码](./config/webpack.config.client.ts)]，包含 `RSC` 相关的配置项有：
 
 - `entry`：配置入口文件，`./src/client.ts`
 - `output.chunkFilename`：客户端组件编译切分文件
 - `output.filename`：入口编译文件
-- `output.path`：打包目录，需要和服务端编译区分存放在 `./dist/client`
+- `output.path`：打包目录，需要和服务端编译区分，存放在 `./dist/client`
 - `output.publicPath`：资源访问目录设置为 `/client`
 - `module.rules`
   - `babel-loader`：需要添加客户端组件所需的 `react`
@@ -117,7 +119,7 @@ pnpm run build:client
 
 ### 客户端组件
 
-`use client` 开头的组件 [[源码](./src/client/ClientCounter.tsx)]，所有需要客户端交互的部分必须通过这种方式区别服务端组件，具体参考 `NextJS` 官方文档 [[查看](https://nextjs.org/docs/app/getting-started/server-and-client-components)]
+`use client` 开头的组件 [[源码](./src/client/ClientCounter.tsx)]，所有需要客户端交互的部分必须通过这种方式区别服务端组件，具体参考 `React` 官方文档 [[查看](https://react.dev/reference/rsc/use-client)]
 
 有两点需要注意：
 
@@ -129,11 +131,11 @@ pnpm run build:client
 > - 通过入口文件引入解析：构建配置的入口文件中并没有引入业务组件
 > - 通过服务端编译的文件：编译的文件是相对目录，生成的 `map` 文件是绝对路径
 >
-> 具体什么原理，如果你清楚可以在仓库的 `issue` 告诉我
+> 具体什么原理，如果你清楚可以在当前仓库的 `issue` 告诉我 [[去补充](https://github.com/cgfeel/rsa-monorepo/issues/new)]
 
 ### 客户端入口文件
 
-客户端组件主要做了 2 件事，详细见 [[源码](./src/client.ts)]：
+主要做了 2 件事，详细见 [[源码](./src/client.ts)]：
 
 - 编译客户端组件并生成 `manifest` 映射文件，上述过程
 - 生成入口文件，用于加载服务端编译的 `RSC` 资源，解析后根据映射表 `hydrate`
@@ -154,12 +156,12 @@ pnpm run build:client
 
 流程：
 
-- 服务端编译时通过 `registerClientReference` 使用占位符替换客户端组件
+- 服务端编译时通过 `registerClientReference` 使用占位替换客户端组件
 - 客户端通过 `createFromFetch` 加载服务端编译的 `RSC`
-- 根据服务端编译时手动提供的 `id`，在映射文件中查找并进行 `hydrate`
+- 根据服务端编译时手动提供的 `id`，在映射文件中查找并替换后，进行 `hydrate`
 - 将注水后的资源通过 `createRoot` 渲染到 `root`
 
-### 构建后编译的文件
+### 客户端构建后编译的文件
 
 分为 5 个部分：
 
@@ -195,7 +197,7 @@ tsx --conditions react-server server.ts
 
 | 路径                       | URL       | 说明                                                        |
 | -------------------------- | --------- | ----------------------------------------------------------- |
-| `./dist/client/index.html` | `/`       | 入口文件，用于加载所有资源                                  |
+| `./dist/client/index.html` | `/`       | 入口文件，用于加载脚本入口                                  |
 | `./dist/client/`           | `/client` | 静态资源目录，包含：客户端资源入口、客户端组件 `chunk` 文件 |
 | `./dist/index.js`          | `/rsc`    | 服务端编译打包后的文件，加载并解析成数据流作为接口          |
 
@@ -222,11 +224,11 @@ app.get('/', (_, res) => {
 
 ### 加载客户端入口资源
 
-访问时候会加载解析客户端入口资源 `/client/main.js`，通过 `fetch` 的方式加载接口 `/RSC`，将响应结果作为 `hydrate` 资源
+访问时候会加载解析客户端入口资源 `/client/main.js`，通过 `fetch` 的方式加载接口 `/rsc`，并将响应结果作为 `hydrate` 资源
 
 ### 通过 `renderToPipeableStream` 加载 `RSC` 资源
 
-将资源渲染为 `RSC Payload` 流，作为接口的 `Response` 作为响应
+将资源渲染为 `RSC Payload` 流，作为接口的 `Response` 响应结果
 
 ```typescript
 const { default: App } = await import('./dist/index.js');
@@ -249,26 +251,27 @@ app.get('/rsc', (_, res) => {
 
 参数：
 
-- `children`：组件元素
-- `webpackMap`：客户端编译时为 `hydrate` 生成的映射文件
-- `options`：配置项，按照 `react-dom/server` 的同名方法写的参数类型
+- `children`：将服务端打包的入口资源通过 `createElement` 转换为组件传入
+- `webpackMap`：编译时为 `hydrate` 而生成的客户端映射文件
+- `options`：配置项（可选），按照 `react-dom/server` 的同名方法写的参数类型
 
 返回 `RSC Payload` 流带有两个方法:
 
 - `abort`：停止渲染数据流
 - `pipe`：通过管道将其作为接口响应 `Response`
 
-### 向服务端资源 `hydrate`
+### `hydrate` 过程
 
 - 通过 `createFromFetch` 加载服务端编译的资源，并找到占位符的 `id`
-- 在客户端 `manifest` 找到于 `id` 匹配的 `chunk`
+- 在客户端 `manifest` 找到和 `id` 匹配的 `chunk`
 - 将 `chunk` 编译后的代码，根据 `registerClientReference` 提供的导出名进行替换
 - 将注水后的资源通过 `createRoot` 渲染到 `root`
 
 ### 写在后面
 
 - 服务端构建时通过 `webpack` 的配置 `target` 决定运行环境
-- 启动服务时也需要提供对应的环境 `--conditions react-server`
+- 启动服务时也需要提供对应的环境
+- 在运行服务时需要加上配置 `--conditions react-server` 以便提供所在环境
 
 > 否则会默认加载通过 `server.js` 引入 `react-server-dom-webpack/server`，而这个包将默认抛出一个错误
 
@@ -282,7 +285,7 @@ pnpm -w run webpack:rsc
 
 ## 有待改进
 
-以上是整个 `RSC` 渲染过程，即：服务端渲染 + 客户端本地注水，这就是最基本的核心，至于其它都是作为其扩展的特性，有时间会单独开一个 `package`，就不在这里总结了，大致如下：
+以上是整个 `RSC` 渲染过程，即：服务端渲染 + 客户端本地注水，这就是最基本的核心，至于其它可以作为其扩展特性，有时间会单独开一个 `package`，就不在这里总结了。包含如下：
 
 - 资源缓存
 - 热更新
