@@ -1,12 +1,12 @@
 # 使用 `react-server-dom-webpack` 实现 `RSC`
 
-由 `React` 官方提供的服务端渲染方法，目前并没有写入文档；在当前仓库记录总结，包含：
+由 `React` 官方提供的服务端渲染方法，目前并没有写入官方文档；在当前仓库记录总结，包含：
 
 - 服务端构建时加载异步组件，以及异步获取数据
 - 服务端构建时加载客户端组件，并设置占位
 - 客户端构建时生成客户端组件 `manifest` 映射文件
 - 生成客户端入口资源，加载服务端生成的 `RSC` 资源 `hydrate`
-- 使用 `Express` 作为服务端加载运行时、所需资源，完成渲染
+- 使用 `Express` 作为服务端加载运行时所需资源，完成渲染
 
 ## 版本选择
 
@@ -56,10 +56,10 @@ pnpm run ts:check
 pnpm run build:server
 ```
 
-- 配置文件：`./config/webpack.config.server.ts`
+- 配置文件：`./config/webpack.config.server.ts` [[源码](./config/webpack.config.server.ts)]
 - 服务端渲染用到的包：`react-server-dom-webpack/server`
 
-### 流程：
+### 流程
 
 服务端构建和非服务端 `React` 项目构建几乎一致
 
@@ -71,7 +71,7 @@ pnpm run build:server
 
 方法：`registerClientReference` [[源码](./src/client/client-references.ts)]，参数说明：
 
-- `proxyImplementation`：通过 `renderToPipeableStream` [[查看](./src/client/client-references.ts)]，读取 `RSC` 资源的时候，如果客户端组件无法渲染，将作为其代替渲染的方法，示例中直接抛出错误
+- `proxyImplementation`：通过 `renderToPipeableStream` [[查看](#通过-rendertopipeablestream-加载-rsc-资源)]，读取 `RSC` 资源的时候，如果客户端组件无法渲染，将作为其代替渲染的方法，示例中直接抛出错误
 - `id`：在构建客户端组件资源时的唯一标识，示例使用了相对路径
 - `exportName`：默认导出用 `default`，具名导出填写导出的组件方法名
 
