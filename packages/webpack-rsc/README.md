@@ -272,7 +272,7 @@ app.get('/rsc', (_, res) => {
 返回 `RSC Payload` 流带有两个方法:
 
 - `abort`：停止渲染数据流
-- `pipe`：提供 `Express` 的 `Response`，通过管道将其作为接口响应
+- `pipe`：提供 `Express` 的 `Response` 作为参数，通过管道响应接口
 
 ### `hydrate` 过程
 
