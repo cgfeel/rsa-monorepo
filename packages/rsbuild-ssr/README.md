@@ -1,36 +1,7 @@
-# Rsbuild project
+# 通过 `Rsbuild` 实现 `SSR`
 
-## Setup
+用例来自官方文档：https://rsbuild.rs/zh/guide/advanced/ssr
 
-Install the dependencies:
-
-```bash
-pnpm install
-```
-
-## Get started
-
-Start the dev server, and the app will be available at [http://localhost:3000](http://localhost:3000).
-
-```bash
-pnpm run dev
-```
-
-Build the app for production:
-
-```bash
-pnpm run build
-```
-
-Preview the production build locally:
-
-```bash
-pnpm run preview
-```
-
-## Learn more
-
-To learn more about Rsbuild, check out the following resources:
-
-- [Rsbuild documentation](https://rsbuild.rs) - explore Rsbuild features and APIs.
-- [Rsbuild GitHub repository](https://github.com/web-infra-dev/rsbuild) - your feedback and contributions are welcome!
+> `rsbuild` 提供的 `ssr` 不支持服务端加载异步组件，在官方文档提到：
+>
+> - 值得注意的是，`Rsbuild` 自身不提供开箱即用的 `SSR` 能力，而是提供 `low-level` 的 `API` 和配置来允许框架开发者实现 `SSR`。如果你需要使用开箱即用的 `SSR` 支持，可以考虑使用基于 `Rsbuild` 的框架，例如 [[`Modern.js`](https://github.com/web-infra-dev/modern.js)]。
