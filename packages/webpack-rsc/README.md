@@ -50,7 +50,7 @@ pnpm run ts:check
 
 - 见：`./types/global.d.ts` [[源码](./types/global.d.ts)]
 
-> `react-server-dom-webpack` 这个包还在开发完善中，后面可能会有比较大的调整，这里仅作为 `RSC` 渲染过程研究，生产环境建议使用，如：`NextJS`、`Remix` 这样成熟的框架
+> `react-server-dom-webpack` 这个包还在开发完善中，后面可能会有比较大的调整，这里仅作为 `RSC` 渲染过程研究，生产环境建议使用：`NextJS`、`Remix` 这样成熟的框架
 
 ## 2. 服务端构建
 
@@ -69,13 +69,13 @@ pnpm run build:server
 
 1. 按照 `React` 正常编写业务代码
 2. 客户端组件需要在第一行提供 `use client`（参考 `NextJS`）
-3. 支持构建时编译服务端异步组件、异步获取数据
+3. 支持构建时编译服务端异步组件、异步获取数据，见： [[源码](./src/server/ServerUserList.tsx)]
 
-### 服务端编译客户端组件
+### 服务端注册客户端组件引用
 
 方法：`registerClientReference` [[源码](./src/client/client-references.ts)]，参数说明：
 
-- `proxyImplementation`：通过 `renderToPipeableStream` [[查看](#通过-rendertopipeablestream-加载-rsc-资源)]，读取 `RSC` 资源的时候，如果客户端组件无法渲染，将作为其代替渲染的方法，示例中直接抛出错误
+- `proxyImplementation`：提供一个函数，通过 `renderToPipeableStream` [[查看](#通过-rendertopipeablestream-加载-rsc-资源)] 读取 `RSC` 资源的时，如果客户端组件无法渲染，将提供的函数作为代替渲染的方法，示例中直接抛出错误
 - `id`：在构建客户端组件资源时的唯一标识，示例使用了相对路径
 - `exportName`：默认导出用 `default`，具名导出填写导出的组件方法名
 
@@ -87,9 +87,7 @@ pnpm run build:server
 - `server.edge.js`
 - `server.node.js`（示例选择 `node`）
 
-这和启动 `server` 需要的运行时有关
-
-> 由于需要编译业务代码的 `typescript` 类型，所以服务端打包目录设置在 `./dist`
+> 这和启动 `server` 需要的运行时有关
 
 编译过程：
 
@@ -115,14 +113,14 @@ pnpm run build:client
 和构建 `React` 业务配置一样，包含 `RSC` 相关的配置项有：
 
 - `entry`：配置入口文件，`./src/client.ts`
-- `output.chunkFilename`：客户端组件编译切分文件
-- `output.filename`：入口编译文件
-- `output.path`：打包目录，需要和服务端编译区分，存放在 `./dist/client`
-- `output.publicPath`：资源访问目录设置为 `/client`
+- `output.chunkFilename`：编译客户端组件后切分的文件
+- `output.filename`：编译后的入口文件
+- `output.path`：打包目录，需要和服务端编译区分，示例存放在 `./dist/client`
+- `output.publicPath`：资源访问目录，示例设置为 `/client`
 - `module.rules`
   - `babel-loader`：需要添加客户端组件所需的 `react`
 - `plugin`：
-  - `HtmlWebpackPlugin`：设置 `/client` 的根目录静态文件
+  - `HtmlWebpackPlugin`：设置 `/client` 的入口静态文件
   - `ReactServerWebpackPlugin`（重要）：将项目中所有的 `use client` 文件编译为 `chunk` 文件，以及对应的 `mainifest` 映射文件，用于获取 `RSC` 资源时替换并进行 `hydrate`
 
 `HtmlWebpackPlugin` 的静态文件来自于模板：`./public/index.html` [[源码](./public/index.html)]，编译后会将客户端入口文件 `/client/main.js` 插入编译后的静态文件中，以便加载并解析 `RSC`
@@ -133,7 +131,7 @@ pnpm run build:client
 
 有两点需要注意：
 
-- `registerClientReference` 是构建服务端组件时，注册客户端组件并记录占位，不需要 `use client`
+- `registerClientReference` 是在服务端注册客户端组件并记录占位，不需要 `use client`
 - 所有首行标记 `use client` 的文件都会在编译时记录在 `manifest` 映射表中，用于加载 `RSC` 资源后 `hydrate`
 
 > **Todo**：`ReactServerWebpackPlugin` 的工作原理，如何记录客户端组件的，目前不清楚，但可以排除以下情况：
@@ -145,9 +143,9 @@ pnpm run build:client
 
 ### 客户端入口文件
 
-主要做了 2 件事，详细见 [[源码](./src/client.ts)]：
+客户端编译主要做了 2 件事，详细见 [[源码](./src/client.ts)]：
 
-- 编译客户端组件并生成 `manifest` 映射文件，上述过程
+- 编译客户端组件并生成 `manifest` 映射文件，如上述过程
 - 生成入口文件，用于加载服务端编译的 `RSC` 资源，解析后根据映射表 `hydrate`
 
 加载编译资源 `RSC` 需要通过 `react-server-dom-webpack/client` 提供的方法 `createFromFetch`，可以通过方法类型了解 [[源码](./types/global.d.ts)]
@@ -244,7 +242,7 @@ app.get('/', (_, res) => {
 
 ### 通过 `renderToPipeableStream` 加载 `RSC` 资源
 
-将资源渲染为 `RSC Payload` 流，作为接口的 `Response` 响应结果
+将服务端编译后的资源渲染为 `RSC Payload` 流，作为接口的 `Response` 响应结果
 
 ```typescript
 const { default: App } = await import('./dist/index.js');
@@ -268,13 +266,13 @@ app.get('/rsc', (_, res) => {
 参数：
 
 - `children`：将服务端打包的入口资源通过 `createElement` 转换为组件传入
-- `webpackMap`：编译时为 `hydrate` 而生成的客户端映射文件
+- `webpackMap`：客户端编译时为 `hydrate` 而生成的映射文件
 - `options`：配置项（可选），按照 `react-dom/server` 的同名方法写的参数类型
 
 返回 `RSC Payload` 流带有两个方法:
 
 - `abort`：停止渲染数据流
-- `pipe`：通过管道将其作为接口响应 `Response`
+- `pipe`：提供 `Express` 的 `Response`，通过管道将其作为接口响应
 
 ### `hydrate` 过程
 
