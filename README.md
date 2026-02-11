@@ -26,3 +26,5 @@ pnpm -w run rsbuild:ssr
 
 - 掘金：React Server Component 教程 [[第一篇](https://juejin.cn/post/7317095140040425498)] [[第二篇](https://juejin.cn/post/7324011393601011763)]
 - React Server Components Without Frameworks [[查看](https://itnext.io/react-server-components-without-frameworks-7c61c1ce0561)]
+- How React server components work: an in-depth guide [[查看](https://www.plasmic.app/blog/how-react-server-components-work)]
+- How do React Server Components(RSC) work internally in React? [[查看](https://jser.dev/react/2023/04/20/how-do-react-server-components-work-internally-in-react/)]
